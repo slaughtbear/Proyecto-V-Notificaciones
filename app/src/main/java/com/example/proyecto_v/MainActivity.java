@@ -2,6 +2,7 @@ package com.example.proyecto_v;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -33,27 +34,31 @@ public class MainActivity extends AppCompatActivity {
 
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.0) {
-            NotificationManager channel = new NotificationChannel(CANAL_ID,
-                    "Mis notificaciones", NotificationManager.IMPORTANCE_DEFAULT;
+        // Crear canal de notificaciones (solo en Android 8.0 o superior)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    CANAL_ID,
+                    "Mis notificaciones",
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
             channel.setDescription("Descripción de mi canal");
             channel.enableLights(true);
             channel.setLightColor(Color.RED);
-            channel.setVibrationPattern(new long[]{0,100,300,100});
+            channel.setVibrationPattern(new long[]{0, 100, 300, 100});
             channel.enableVibration(true);
             notificationManager.createNotificationChannel(channel);
         }
-        
+
         Button wearButton = (Button) findViewById(R.id.boton1);
         wearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NotificationCompat.Builder notificacion = new 
+                NotificationCompat.Builder notificacion = new
                         NotificationCompat.Builder(MainActivity.this, CANAL_ID)
                         .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle("Titulo WOW!")
-                        .setContentText("Esperemos que funcione la practica");
-                        
+                        .setContentTitle("Título WOW!")
+                        .setContentText("Esperemos que funcione la práctica");
+
                 notificationManager.notify(NOTIF_ID, notificacion.build());
             }
         });
